@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chess Soft Coach — шахматы с подсказками</title>
+<meta name="description" content="Chess Soft Coach: шахматная доска с подсказкой лучшего хода от Stockfish. Выбери сторону — движок подсказывает именно за неё.">
+<meta name="theme-color" content="#12102a">
+<meta property="og:title" content="Chess Soft Coach">
+<meta property="og:description" content="Доска, выбор стороны и лучший ход от Stockfish 19 прямо в браузере.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2317122b'/%3E%3Ctext x='50' y='72' font-size='62' text-anchor='middle' fill='%23ffe66d'%3E%E2%99%9E%3C/text%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">
+    <span class="logo" aria-hidden="true">♞</span>
+    <div class="brand-text">
+      <h1>Chess Soft Coach</h1>
+      <p class="sub">Шахматы с подсказкой лучшего хода. Ходишь сам за обе стороны — движок подсказывает за твою.</p>
+    </div>
+  </div>
+  <button id="sideBtn" class="side-btn" type="button" aria-live="polite">Я играю за белых</button>
+</header>
+
+<main class="layout">
+  <section class="board-col">
+    <div class="board-shell">
+      <div class="evalbar" id="evalbar" title="Оценка позиции">
+        <div class="eval-white" id="evalWhite"></div>
+      </div>
+
+      <div class="board" id="board" aria-label="Шахматная доска">
+        <div class="squares" id="squares"></div>
+        <div class="pieces" id="pieces"></div>
+        <svg class="arrows" id="arrows" viewBox="0 0 8 8" preserveAspectRatio="none"></svg>
+      </div>
+
+      <div class="board-info">
+        <span class="turn" id="turnBadge">Ход белых</span>
+        <span class="thinking" id="thinking" hidden><span class="dot"></span>считаю…</span>
+        <span class="engine-state" id="engineState">движок загружается…</span>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <button id="undoBtn" class="btn" type="button">← Отменить ход</button>
+      <button id="flipBtn" class="btn" type="button">Перевернуть</button>
+      <button id="newBtn" class="btn" type="button">Новая партия</button>
+      <button id="fenBtn" class="btn" type="button">Скопировать FEN</button>
+    </div>
+  </section>
+
+  <aside class="panel">
+    <div class="card best-card">
+      <div class="card-head">
+        <h2>Лучший ход</h2>
+        <span class="pill" id="hintState">—</span>
+      </div>
+
+      <div class="best-row">
+        <span class="best-san" id="bestSan">—</span>
+        <span class="best-score" id="bestScore"></span>
+      </div>
+      <p class="best-line" id="bestLine">Жду загрузку движка…</p>
+
+      <button id="playBest" class="btn play" type="button" disabled>Сыграть этот ход</button>
+      <p class="note" id="hintNote">Показывается один ход — тот, что движок считает лучшим.</p>
+
+      <label class="switch">
+        <input type="checkbox" id="bothSides">
+        <span>Подсказывать и за соперника</span>
+      </label>
+
+      <label class="field">
+        <span>Сила анализа</span>
+        <select id="depthSel">
+          <option value="12">Быстро (глубина 12)</option>
+          <option value="18">Обычно (глубина 18)</option>
+          <option value="22" selected>Сильно (глубина 22)</option>
+          <option value="28">Максимум (глубина 28)</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h2>Ходы</h2><span class="pill" id="plyCount">0</span></div>
+      <div class="moves" id="moves"></div>
+    </div>
+
+    <p class="disclaimer">
+      Подсказку даёт Stockfish 19 (NNUE, WASM) прямо в браузере — без сервера и без интернета после загрузки.
+    </p>
+  </aside>
+</main>
+
+<div class="toast" id="toast" hidden></div>
+
+<script type="module" src="assets/app.js"></script>
+</body>
+</html>

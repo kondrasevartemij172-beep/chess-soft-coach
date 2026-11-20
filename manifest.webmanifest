@@ -1,0 +1,12 @@
+{
+  "name": "Chess Soft Coach",
+  "short_name": "Chess Coach",
+  "lang": "ru",
+  "description": "Шахматная доска с подсказкой лучшего хода от Stockfish 19",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#12102a",
+  "theme_color": "#12102a",
+  "icons": []
+}
